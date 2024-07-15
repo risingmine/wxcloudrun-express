@@ -17,6 +17,24 @@ app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
+function sendmess (appid, mess) {
+  return new Promise((resolve, reject) => {
+    request({
+      method: 'POST',
+      url: `http://api.weixin.qq.com/cgi-bin/message/custom/send?from_appid=${appid}`,
+      body: JSON.stringify(mess)
+    }, function (error, response) {
+      if (error) {
+        console.log('接口返回错误', error)
+        reject(error.toString())
+      } else {
+        console.log('接口返回内容', response.body)
+        resolve(response.body)
+      }
+    })
+  })
+}
+
 app.post('/api/msg', async (req, res) => {
   console.log('消息推送', req.body)
   // 从header中取appid，如果from-appid不存在，则不是资源复用场景，可以直接传空字符串，使用环境所属账号发起云调用
