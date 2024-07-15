@@ -36,7 +36,7 @@ app.post('/api/msg', async (req, res) => {
   const appid = req.headers['x-wx-from-appid'] || ''
   const { ToUserName, FromUserName, MsgType, Content, CreateTime } = req.body
   console.log('推送接收的账号', ToUserName, '创建时间', CreateTime)
-  console.log('消息推送', req.body)
+  console.log('消息推送内容:', Content, "MsgType:", MsgType)
   if (MsgType === 'text') {
     if (Content === '回复文字') { // 小程序、公众号可用
       await sendmess(appid, {
